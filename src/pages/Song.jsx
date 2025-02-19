@@ -1,26 +1,39 @@
 import React from 'react'
 import Player from '../components/Player'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { songsArray } from '../assets/database/songs'
+import { artistArray } from "../assets/database/artists"
 
 const Song = () => {
+
+  const { id } = useParams()
+  const { image, name, duration, artist, audio } = songsArray.filter((currentSongObj) => currentSongObj.id === Number(id))[0]
+  const artistObj = artistArray.filter((currentArtistObj) => currentArtistObj.name === artist)[0]
+  const songsArrayFromArtist = songsArray.filter((currentSongsObj => currentSongsObj.artist === artistObj.name))
+  const randomIndex = Math.floor(Math.random()* (songsArrayFromArtist.length - 1))
+  const randomIndex2 = Math.floor(Math.random()* (songsArrayFromArtist.length - 1))
+  const randomIdFromArtist = songsArrayFromArtist[randomIndex].id
+  const randomId2FromArtist = songsArrayFromArtist[randomIndex2].id
+
+
   return <div className='song'>
 
     <div className="song__container">
       <div className="song__image-container">
-        <img className='song__image' src="https://i.scdn.co/image/ab67616d00001e022774b00531d558bc19e12a24" alt="imagem da música x" />
+        <img className='song__image' src={image} alt={`Imagem da Música ${name}`} />
       </div>
     </div>
 
     <div className="song__bar">
-      <Link to="/artist/1" className="song__artist-image">
-        <img width={75} height={75} className='' src="https://i.scdn.co/image/ab676161000051744dcd8a3bff84cd7703892cf" alt="Imagem do artista X" />
+      <Link to={`/artist/${artistObj.id}`} className="song__artist-image">
+        <img width={75} height={75} src={artistObj.image} alt={`Imagem do artista ${artist}`} />
       </Link>
 
-      <Player/>
+      <Player duration={duration} randomIdFromArtist={randomIdFromArtist} randomId2FromArtist={randomId2FromArtist} />
 
       <div className="">
-        <p className='song__name'>Última Saudade - Ao vivo</p>
-        <p>Henrique & Juliano</p>
+        <p className='song__name'>{name}</p>
+        <p>{artist}</p>
       </div>
       
     </div>
