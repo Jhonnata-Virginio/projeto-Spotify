@@ -11,7 +11,7 @@ const SongList = ({ songsArray }) => {
 
     
 
-    <p className='song-list__see-more' onClick={() => {setItems(items + 5)}} >Ver Mais</p>
+    <p className='song-item__see-more' onClick={() => {setItems(items + 5)}} >Ver Mais</p>
   </div>
 }
 
